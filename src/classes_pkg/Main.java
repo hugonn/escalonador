@@ -74,7 +74,7 @@ public class Main {
 							
 							if(lstProcesso[count].getTempoChegada() == tempoAtual) {		//Implementação para o primeiro processo na lista
 								processador.executaProcesso(lstProcesso[count]);
-								controleContexto=true;
+								
 								
 								lstProcesso[count].setStatus("Executando");
 								grafico +=  String.valueOf(processador.procEmExecucao().getNumProcesso());		// Verificar a lista de processo, já que nenhum processo esta no processador. Nao tem pq verificar a lista de espera
@@ -91,48 +91,51 @@ public class Main {
 					if(processador.getTempoNoProc() != agendador.getFatiaTempo()) {
 						processador.setTempoNoProc();
 						
-						System.out.println(tempoAtual+"-"+processador.getTempoNoProc() + " - " + processador.procEmExecucao().getNumProcesso());
 						
-						
-						if(lstProcEspera.size() == 0) {
-							for(count = 0; count < lstProcesso.length ; count++) {
-								
-								if(lstProcesso[count].getStatus() != "Executando" && lstProcesso[count].getTempoChegada() <= tempoAtual) { // Processo ja chegou e ta na lista de espera 
+						for(count = 0; count < lstProcesso.length ; count++) {
 									
-									if(processador.procEmExecucao().getPrioridade() > lstProcesso[count].getPrioridade()) {
-										grafico+="C";
+							if(lstProcesso[count].getStatus() != "Executando" && lstProcesso[count].getTempoChegada() <= tempoAtual) { // Processo chegou, verificar se ele tem a prioridade maior que o que esta sendo exec  
 										
-										controleContexto = true;
-										
-										processador.procEmExecucao().diminuiTempoExec(processador.getTempoNoProc());
-										lstProcEspera.add(processador.procEmExecucao());
-										
-										processador.executaProcesso(lstProcesso[count]);
-										processador.procEmExecucao().setStatus("Executando");
-										
-										grafico += processador.procEmExecucao().getNumProcesso();
-										
-									}else if(processador.procEmExecucao().getPrioridade() <= lstProcesso[count].getPrioridade()) {
-										lstProcEspera.add(lstProcesso[count]);
-									}
+								if(processador.procEmExecucao().getPrioridade() > lstProcesso[count].getPrioridade()) { // se tiver, troca o contexto, atualiza o tempo de execução do processo e troca o seu status. Lista de Espera é só para processos de mesma prioridade
+									grafico+="C";
+									controleContexto = true;
+													
+									processador.procEmExecucao().diminuiTempoExec(processador.getTempoNoProc());
+									processador.procEmExecucao().setStatus("Parado");
+			//										lstProcEspera.add(processador.procEmExecucao());
+													
+									processador.executaProcesso(lstProcesso[count]);
+									processador.procEmExecucao().setStatus("Executando");
+													
+//									grafico += processador.procEmExecucao().getNumProcesso();
+											
+								}else if(processador.procEmExecucao().getPrioridade() <= lstProcesso[count].getPrioridade()) {
+									lstProcEspera.add(lstProcesso[count]);
 									
-									
+									grafico+=processador.procEmExecucao().getNumProcesso();			// Não esquecer de diminuir tempo de execução cada vez que o processo fica no processador
+									processador.procEmExecucao().diminuiTempoExec(1);
 									
 								}
-								
+	
 							}
+									
 						}
 						
-						
-						
-						
 					}else {
-						System.out.println("fudeu");
+						System.out.println(processador.getTempoNoProc());
+						
+						if(lstProcEspera.size()>0) {
+							for(count=0;count < lstProcEspera.size() ; count++) {
+								if(lstProcEspera.get(count).getPrioridade() == processador.procEmExecucao().getPrioridade()) {
+									
+								}
+							}
+						}
 						
 					}
 					
 					
-					if(tempoAtual == 15) {
+					if(tempoAtual == 12) {
 						processosFinalizados = true;
 					}
 					
@@ -148,9 +151,10 @@ public class Main {
 					tempoAtual += 2;
 					controleContexto = false;
 				}
-				else
+				else {
 					tempoAtual++;
-				
+					
+				}
 				
 			}
 			
@@ -161,7 +165,7 @@ public class Main {
 					processosFinalizados = true;
 				}
 			}
-			System.out.println(tempoAtual + "-" + processador.procEmExecucao().getStatus() + " - " + processador.getTempoNoProc() +" - " + grafico);
+			System.out.println(tempoAtual + "-" + processador.procEmExecucao().getStatus() + " - " + processador.getTempoNoProc() +"- "+processador.procEmExecucao().getTempoExec() +" - " + grafico);
         }catch(Exception ex) {
         	System.out.println(ex.getMessage());
         }

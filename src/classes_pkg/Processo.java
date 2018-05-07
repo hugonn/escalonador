@@ -18,7 +18,7 @@ public class Processo {
 	public Processo(float tempoChegada,float tempoExec, int prioridade, int numProcesso ) {
 		this.tempoChegada = tempoChegada;
 		this.tempoExec = tempoExec;
-		status = "Em Espera";
+		status = "Parado";
 		this.numProcesso = numProcesso;
 		this.prioridade = prioridade;
 		
