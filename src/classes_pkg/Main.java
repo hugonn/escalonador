@@ -89,40 +89,49 @@ public class Main {
 				}else { // processador ta executando um processo
 					
 					if(processador.getTempoNoProc() != agendador.getFatiaTempo()) {
-						processador.setTempoNoProc();
 						
-						
-						for(count = 0; count < lstProcesso.length ; count++) {
-									
-							if(lstProcesso[count].getStatus() != "Executando" && lstProcesso[count].getTempoChegada() <= tempoAtual) { // Processo chegou, verificar se ele tem a prioridade maior que o que esta sendo exec  
+						if(processador.procEmExecucao().getStatus() == "Finalizado") {
+							// Pesquisar o processo na lista de espera ou na lista de processos
+						}else {
+							
+							processador.setTempoNoProc();
+							
+							for(count = 0; count < lstProcesso.length ; count++) {
 										
-								if(processador.procEmExecucao().getPrioridade() > lstProcesso[count].getPrioridade()) { // se tiver, troca o contexto, atualiza o tempo de execução do processo e troca o seu status. Lista de Espera é só para processos de mesma prioridade
-									grafico+="C";
-									controleContexto = true;
-													
-									processador.procEmExecucao().diminuiTempoExec(processador.getTempoNoProc());
-									processador.procEmExecucao().setStatus("Parado");
-			//										lstProcEspera.add(processador.procEmExecucao());
-													
-									processador.executaProcesso(lstProcesso[count]);
-									processador.procEmExecucao().setStatus("Executando");
-													
-//									grafico += processador.procEmExecucao().getNumProcesso();
+								if((lstProcesso[count].getStatus() != "Executando" || lstProcesso[count].getStatus() != "Finalizado") && lstProcesso[count].getTempoChegada() <= tempoAtual) { // Processo chegou, verificar se ele tem a prioridade maior que o que esta sendo exec  
 											
-								}else if(processador.procEmExecucao().getPrioridade() <= lstProcesso[count].getPrioridade()) {
-									lstProcEspera.add(lstProcesso[count]);
-									
-									grafico+=processador.procEmExecucao().getNumProcesso();			// Não esquecer de diminuir tempo de execução cada vez que o processo fica no processador
-									processador.procEmExecucao().diminuiTempoExec(1);
-									
+									if(processador.procEmExecucao().getPrioridade() > lstProcesso[count].getPrioridade()) { // se tiver, troca o contexto, atualiza o tempo de execução do processo e troca o seu status. Lista de Espera é só para processos de mesma prioridade
+										grafico+="C";
+										controleContexto = true;
+														
+										processador.procEmExecucao().diminuiTempoExec(processador.getTempoNoProc());
+										processador.procEmExecucao().setStatus("Parado");
+				//										lstProcEspera.add(processador.procEmExecucao());
+														
+										processador.executaProcesso(lstProcesso[count]);
+										processador.procEmExecucao().setStatus("Executando");
+														
+//										grafico += processador.procEmExecucao().getNumProcesso();
+												
+									}else if(processador.procEmExecucao().getPrioridade() <= lstProcesso[count].getPrioridade()) {
+										lstProcEspera.add(lstProcesso[count]);
+										
+										grafico+=processador.procEmExecucao().getNumProcesso();			// Não esquecer de diminuir tempo de execução cada vez que o processo fica no processador
+										processador.procEmExecucao().diminuiTempoExec(1);
+										
+									}
+		
 								}
-	
+										
 							}
-									
 						}
+						
 						
 					}else {
 						System.out.println(processador.getTempoNoProc());
+						if(processador.procEmExecucao().getStatus() == "Finalizado") {
+							//Troco de processo direto. Pesquisar em uma das listas
+						}
 						
 						if(lstProcEspera.size()>0) {
 							for(count=0;count < lstProcEspera.size() ; count++) {
