@@ -14,12 +14,17 @@ public class Processador {
 		tempoNoProc = 0;
 	}
 	
+	public void zeraFatia() {
+		tempoNoProc = 0;
+	}
+	
 	public Processo procEmExecucao() {
 		return proc;
 	}
 	
 	public void setTempoNoProc() {
 		this.tempoNoProc += 1;
+		proc.diminuiTempoExec(1);
 	}
 	
 	public float getTempoNoProc(){
