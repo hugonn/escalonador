@@ -11,7 +11,7 @@ public class Processador {
 	
 	public void executaProcesso(Processo p) {
 		proc = p;
-		tempoNoProc = 0;
+		tempoNoProc = 1;
 	}
 	
 	public void zeraFatia() {

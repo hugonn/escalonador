@@ -59,23 +59,22 @@ public class Escalonador {
 	}
 	
 	public int maiorPrioridade(ArrayList<Processo> lst) {
-		int i, indexPriori = -1;
+		int i, indexPriori = 0;
 		
-		for( i=0; i<lst.size(); i++) {
-			
-			if(lst.get(i).getStatus() == "Parado") {
-				
-				if(i == 0) {
-					indexPriori = 0;
-				}
-				
-				if(lst.get(i).getPrioridade() < indexPriori) {
+		if(lst.size() == 1) {
+			return 0;
+		
+		} else {
+			for(i = 0; i<lst.size(); i++) {
+				if(lst.get(indexPriori).getPrioridade() > lst.get(i).getPrioridade()) {
 					indexPriori = i;
 				}
+				
 			}
-			
 		}
 		
-		return 0;
+		return indexPriori;
+		
+		
 	}
 }

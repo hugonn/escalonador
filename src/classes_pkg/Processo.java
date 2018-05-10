@@ -58,7 +58,7 @@ public class Processo {
 	
 	public void diminuiTempoExec(float i){
 		this.tempoExec-=i;
-		if(tempoExec == 0) {
+		if(tempoExec <  0) {
 			status = "Finalizado";
 		}
 	}
