@@ -122,7 +122,6 @@ public class Main {
 								 lstProcesso[0].setStatus("Executando");
 								 processador.executaProcesso(lstProcesso[0]);			 //Coloca o processo no processador, remove da lista de processos 
 								 lstProcesso = null;
-								 
 								 break;
 							 }
 						 } else {
@@ -131,7 +130,6 @@ public class Main {
 									 lstProcesso[count].setStatus("Executando");
 									 processador.executaProcesso(lstProcesso[count]);			 //Coloca o processo no processador, remove da lista de processos 
 									 lstProcesso = agendador.removeProcessoLista(lstProcesso);
-									 controleContexto = true;
 									 break;
 								 }
 							 }
@@ -215,11 +213,54 @@ public class Main {
 											 lstProcEspera.add(lstProcesso[0]);
 											 
 											 lstProcesso = null;
+											 
+											 if(lstProcEspera.size() == 1) {
+												 
+												 if(lstProcEspera.get(0).getPrioridade() == processador.procEmExecucao().getPrioridade()) {
+													 
+													 processador.procEmExecucao().setStatus("Em Espera");
+													 
+													 lstProcEspera.get(0).setStatus("Executando");
+													 
+													 lstProcEspera.add(processador.procEmExecucao());
+													 
+													 processador.executaProcesso(lstProcEspera.get(0));
+													 
+													 lstProcEspera.remove(lstProcEspera.get(0));
+													 
+												 }
+												 
+												 
+											 }else if(lstProcEspera.size() > 1) {
+												 
+												 for(count =0; count < lstProcEspera.size()-1; count++) {
+													 
+													 if(lstProcEspera.get(count).getPrioridade() == processador.procEmExecucao().getPrioridade()) {
+														 
+														 processador.procEmExecucao().setStatus("Em Espera");
+														 
+														 lstProcEspera.get(count).setStatus("Executando");
+														 
+														 lstProcEspera.add(processador.procEmExecucao());
+														 
+														 processador.executaProcesso(lstProcEspera.get(count));
+														 
+														 lstProcEspera.remove(lstProcEspera.get(count));
+														 
+														 break;
+													 }else
+														 processador.zeraFatia();
+													 
+													 
+												 }
+												 
+											 }
 
 										 }
 										 
 										 
 									 }
+									
 									
 								}
 								 
@@ -254,10 +295,50 @@ public class Main {
 												 
 												 lstProcEspera.add(lstProcesso[count]);
 				
-												 
-												 
 												 lstProcesso = agendador.removeProcessoListaEspera(lstProcesso);
 												 
+												 if(lstProcEspera.size() == 1) {
+													 
+													 if(lstProcEspera.get(0).getPrioridade() == processador.procEmExecucao().getPrioridade()) {
+														 
+														 processador.procEmExecucao().setStatus("Em Espera");
+														 
+														 lstProcEspera.get(0).setStatus("Executando");
+														 
+														 lstProcEspera.add(processador.procEmExecucao());
+														 
+														 processador.executaProcesso(lstProcEspera.get(0));
+														 
+														 lstProcEspera.remove(lstProcEspera.get(0));
+														 
+													 }
+													 
+													 
+												 }else if(lstProcEspera.size() > 1) {
+													 
+													 for(count =0; count < lstProcEspera.size()-1; count++) {
+														 
+														 if(lstProcEspera.get(count).getPrioridade() == processador.procEmExecucao().getPrioridade()) {
+															 
+															 processador.procEmExecucao().setStatus("Em Espera");
+															 
+															 lstProcEspera.get(count).setStatus("Executando");
+															 
+															 lstProcEspera.add(processador.procEmExecucao());
+															 
+															 processador.executaProcesso(lstProcEspera.get(count));
+															 
+															 lstProcEspera.remove(lstProcEspera.get(count));
+															 
+															 break;
+														 }else
+															 processador.zeraFatia();
+														 
+														 
+													 }
+													 
+												 }
+
 
 												 break;
 											 }
@@ -339,24 +420,25 @@ public class Main {
 					 }
 					 
 					 
-				 }
+				 }	
 				 
+				 if(tempoAtual == 12) {
+					 System.out.println("DA CABEÇA AOS PÉÉÉÉ´S");
+				 }
 				
-	
-
-				
-				
-				 	tempoAtual++;
+				 
 					
-					if(processador.procEmExecucao() != null) {
-						if(processador.getTempoNoProc() == 3 || controleContexto == true) {
-							processador.zeraFatia();
-							controleContexto = false;
-						}
-						else
-							processador.setTempoNoProc();
-
+				 if(processador.procEmExecucao() != null) {
+					if(processador.getTempoNoProc() == 3 || controleContexto == true) {
+						processador.zeraFatia();
+						controleContexto = false;
 					}
+					else
+						processador.setTempoNoProc();
+
+				}
+				 
+				 tempoAtual++;
 						
 				if(lstProcesso == null) {
 					if(lstProcEspera.isEmpty()) {
