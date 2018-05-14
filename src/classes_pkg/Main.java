@@ -114,15 +114,12 @@ public class Main {
 				 *    			- se nao, espera o prox processo chegar           -- Essa verificação é feita no passo 1
 				 *    */
 				
-				System.out.println("TempoAtual: " + tempoAtual + " - ProcessoNoProc: " +(processador.procEmExecucao() == null ? "null" :processador.procEmExecucao().getNumProcesso() ) +
+ 				System.out.println("TempoAtual: " + tempoAtual + " - ProcessoNoProc: " +(processador.procEmExecucao() == null ? "null" :processador.procEmExecucao().getNumProcesso() ) +
 					" - TempoNoProcessador: "+ processador.getTempoNoProc() +" - "+ (processador.procEmExecucao() == null ? "null" : "Tempo Restante: " + processador.procEmExecucao().getTempoExec() )+
 						
 					(lstProcesso == null ? " Fim dos Processos na Lista " : " Proximo Processo a ser exec: "+lstProcesso[0].getNumProcesso()) + " - Lista de espera: "+lstProcEspera.size() + " - Tempo Exec processo 1: " + ( lstProcEspera.isEmpty()  ? "0" : lstProcEspera.get(0).getTempoExec() ));
 					
-				if(tempoAtual == 15) {
-						System.out.println(" ");}	
-					
-					
+
 				if(processador.procEmExecucao() == null) {
 					
 					if(lstProcEspera.size() == 1) {
@@ -133,6 +130,7 @@ public class Main {
 						
 						controleContexto = true;
 						
+						
 					}else if(lstProcEspera.size() > 1) {
 						
 						 indexMaiorPriori = agendador.maiorPrioridade(lstProcEspera);
@@ -142,6 +140,7 @@ public class Main {
 						 lstProcEspera.remove(indexMaiorPriori);
 						 
 						 controleContexto = true;
+						 
 						 
 					}else {
 						
@@ -154,8 +153,6 @@ public class Main {
 									 lstProcesso[0].setStatus("Executando");
 									 
 									 processador.executaProcesso(lstProcesso[0]);			 //Coloca o processo no processador, remove da lista de processos 
-									 
-									 grafico += processador.procEmExecucao().getNumProcesso();
 									 
 									 lstProcesso = null;
 									 
@@ -172,8 +169,6 @@ public class Main {
 										 lstProcesso[count].setStatus("Executando");
 										 
 										 processador.executaProcesso(lstProcesso[count]);			 //Coloca o processo no processador, remove da lista de processos 
-										 
-										 grafico += processador.procEmExecucao().getNumProcesso();
 										 
 										 lstProcesso = agendador.removeProcessoLista(lstProcesso);
 										 
@@ -201,13 +196,13 @@ public class Main {
 							 
 							 controleContexto = true;	// Vai mudar o contexto
 							 
+							 
 							 if(lstProcEspera.size() > 0) {
 								 
 								 indexMaiorPriori = agendador.maiorPrioridade(lstProcEspera);
 								 
 								 processador.executaProcesso(lstProcEspera.get(indexMaiorPriori));
 								 
-								 grafico += processador.procEmExecucao().getNumProcesso();
 								 
 								 lstProcEspera.remove(indexMaiorPriori);
 								 
@@ -221,7 +216,6 @@ public class Main {
 										 
 										 processador.executaProcesso(lstProcesso[0]);	
 										 
-										 grafico += processador.procEmExecucao().getNumProcesso();
 										 
 										 lstProcesso = agendador.removeProcessoLista(lstProcesso);
 										 
@@ -250,7 +244,7 @@ public class Main {
 										 if(lstProcesso[0].getPrioridade() < processador.procEmExecucao().getPrioridade()) {
 											 // coloca o processo que ta sendo executado na lista de espera e o novo processo no processador
 											 
-											 controleContexto = true;
+											 controleContexto = true;										
 											 
 											 processador.procEmExecucao().setStatus("Em Espera");
 											 
@@ -259,9 +253,7 @@ public class Main {
 											 lstProcEspera.add(processador.procEmExecucao());
 											 
 											 processador.executaProcesso(lstProcesso[count]);
-											 
-											 grafico += processador.procEmExecucao().getNumProcesso();
-											 
+											 	 
 											 lstProcesso = null;
 											 
 										 }else {
@@ -294,15 +286,11 @@ public class Main {
 												 
 												 processador.setTempoNoProc();
 												 
-												 System.out.println("Tempo restante processo: " + processador.procEmExecucao().getTempoExec());
-												 
 												 lstProcesso[count].setStatus("Executando");
 												 
 												 lstProcEspera.add(processador.procEmExecucao());
 												 
 												 processador.executaProcesso(lstProcesso[count]);
-												 
-												 grafico += processador.procEmExecucao().getNumProcesso();
 												 
 												 lstProcesso = agendador.removeProcessoLista(lstProcesso);
 												 
@@ -352,12 +340,11 @@ public class Main {
 							 
 							 lstProcConcluido.add(processador.procEmExecucao());
 							 
+							 
 							 if(lstProcEspera.size() == 1) {
 							 
 								 processador.executaProcesso(lstProcEspera.get(0));
-								 
-								 grafico += processador.procEmExecucao().getNumProcesso();
-								 
+								 		 
 								 lstProcEspera.remove(0);
 							 } 
 							 
@@ -366,8 +353,6 @@ public class Main {
 								 indexMaiorPriori = agendador.maiorPrioridade(lstProcEspera);
 								 
 								 processador.executaProcesso(lstProcEspera.get(indexMaiorPriori));
-								 
-								 grafico += processador.procEmExecucao().getNumProcesso();
 								 
 								 lstProcEspera.remove(indexMaiorPriori);
 								 
@@ -389,8 +374,6 @@ public class Main {
 									 
 									 processador.executaProcesso(lstProcEspera.get(0));
 									 
-									 grafico += processador.procEmExecucao().getNumProcesso();
-									 
 									 lstProcEspera.remove(lstProcEspera.get(0));
 									 
 								 }
@@ -403,15 +386,11 @@ public class Main {
 										 
 										 processador.procEmExecucao().setStatus("Em Espera");
 										 
-										 processador.setTempoNoProc();
-										 
 										 lstProcEspera.get(count).setStatus("Executando");
 										 
 										 lstProcEspera.add(processador.procEmExecucao());
 										 
 										 processador.executaProcesso(lstProcEspera.get(count));
-										 
-										 grafico += processador.procEmExecucao().getNumProcesso();
 										 
 										 lstProcEspera.remove(lstProcEspera.get(count));
 										 
@@ -428,50 +407,52 @@ public class Main {
 					 	 
 				 }	
 				
-				if(controleContexto == false) {
-					grafico += ( processador.procEmExecucao() == null ? "-" :processador.procEmExecucao().getNumProcesso());
 					
-					tempoAtual++;
-				}
-				 else {
-					 grafico += 'C'; 
-					 tempoAtual = tempoAtual + 2;
-				 }
-				 
-				 if(processador.procEmExecucao() != null) {
+				tempoAtual++;
+				
+				if(processador.procEmExecucao() != null) {
 					 
 					if(processador.getTempoNoProc() == 3 || controleContexto == true  ) {
+						
+						if(grafico.charAt(grafico.length()-1) == '-')
+							
+							grafico+=processador.procEmExecucao().getNumProcesso();
+						
+						else if(grafico.charAt(grafico.length()-1) != 'C')
+							
+							grafico+= "C";
+						
+						tempoAtual++;
 						
 						processador.zeraFatia();
 						
 						controleContexto = false;
 					}
-					else
+					else {
+
 						processador.setTempoNoProc();
-					
-					if(processador.procEmExecucao().getTempoExec() == 0) {
 						
-						processador.procEmExecucao().setStatus("Finalizado");
+						if(processador.procEmExecucao().getStatus() != "Finalizado" || processador.procEmExecucao().getTempoExec() == 0.0)
+							
+							grafico+= processador.procEmExecucao().getNumProcesso();
 					}
-				}
-				  
+					
+				}else 
+					grafico+="-";
 				
-				 if(tempoAtual == 28) {
-					 System.out.println("Processo vai chegar");
-				 }
 						
 				if(lstProcesso == null) {
 					if(lstProcEspera.isEmpty()) {
 						if(processador.procEmExecucao() == null) {
 							processosFinalizados = true;
-							System.out.println(grafico);
+							System.out.println("CPU:" + grafico);
 						}
 					}
 				}
 				
 			}
 			
-        }catch(Exception ex) {
+        }catch(Exception ex){
         	
         	System.out.println(ex);
         }
