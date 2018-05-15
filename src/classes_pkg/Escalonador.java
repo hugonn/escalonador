@@ -109,6 +109,35 @@ public class Escalonador {
 		}
 	}
 	
+	public String getTempoRespostaMedio(ArrayList<Processo> lst) {
+		
+		String TRM = "Tempo de Resposta Médio: ";
+		
+		float somaTempos = 0;
+		
+		float tempoMedResposta = 0;
+		
+		for(int i =0;i<lst.size(); i++) {
+			
+			if(i == lst.size()-1) 
+				
+				TRM += "("+"P"+lst.get(i).getNumProcesso() +": "+ lst.get(i).getTempoResposta()+")" +" = ";
+			else
+				
+				TRM += "("+ "P"+lst.get(i).getNumProcesso() +": "+lst.get(i).getTempoResposta()+")" + " + ";
+			
+			somaTempos+=lst.get(i).getTempoResposta();
+		}	
+			
+		TRM += somaTempos +"/"+ lst.size()+ " = ";
+		
+		tempoMedResposta = somaTempos/lst.size();
+			
+		TRM+= tempoMedResposta + " u.t ";
+		
+		return TRM;
+	}
+	
 	public String getTempoEsperaMedio(ArrayList<Processo> lst) {
 		
 		String TEM = "Tempo de Espera Médio: ";

@@ -8,6 +8,7 @@ public class Processo {
 	private float tempoRestante;
 	private float[] IO;
 	private float tempoEspera;
+	private float tempoResposta;
 	
 	public int getNumProcesso() {
 		
@@ -32,6 +33,8 @@ public class Processo {
 		this.prioridade = prioridade;
 		
 		this.tempoEspera = 0;
+		
+		this.tempoResposta = -1;
 		
 	}
 	public Processo(float tempoChegada,float tempoExec, int prioridade, int numProcesso, String Io ) {
@@ -110,5 +113,14 @@ public class Processo {
 	public float getTempoEspera() {
 		
 		return this.tempoEspera;
+	}
+	
+	public void setTempoResposta(float tr) {
+		this.tempoResposta = tr;
+	}
+	
+	public float getTempoResposta() {
+		
+		return tempoResposta;
 	}
 }

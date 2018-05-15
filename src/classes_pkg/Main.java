@@ -167,6 +167,10 @@ public class Main {
 					
 					if(lstProcEspera.size() == 1) {
 						
+						if(lstProcEspera.get(0).getTempoResposta() == -1)
+							
+							lstProcEspera.get(0).setTempoResposta(tempoAtual);
+						
 						processador.executaProcesso(lstProcEspera.get(0));
 						
 						lstProcEspera.remove(0);
@@ -176,6 +180,10 @@ public class Main {
 					}else if(lstProcEspera.size() > 1) {
 						
 						 indexMaiorPriori = agendador.maiorPrioridade(lstProcEspera);
+						 
+						 if(lstProcEspera.get(indexMaiorPriori).getTempoResposta() == -1)
+								
+								lstProcEspera.get(indexMaiorPriori).setTempoResposta(tempoAtual);
 						 
 						 processador.executaProcesso(lstProcEspera.get(indexMaiorPriori));
 						 
@@ -193,6 +201,8 @@ public class Main {
 									 
 									 lstProcesso[0].setStatus("Executando");
 									 
+									 lstProcesso[0].setTempoResposta(tempoAtual);
+									 
 									 processador.executaProcesso(lstProcesso[0]);			 //Coloca o processo no processador, remove da lista de processos 
 									 
 									 lstProcesso = null;
@@ -208,6 +218,8 @@ public class Main {
 									 if(tempoAtual >= lstProcesso[count].getTempoChegada()) {
 										 
 										 lstProcesso[count].setStatus("Executando");
+										 
+										 lstProcesso[count].setTempoResposta(tempoAtual);
 										 
 										 processador.executaProcesso(lstProcesso[count]);			 //Coloca o processo no processador, remove da lista de processos 
 										 
@@ -231,6 +243,7 @@ public class Main {
 							 
 							 
 							 if(!lstProcConcluido.contains(processador.procEmExecucao()))
+								 
 								 lstProcConcluido.add(processador.procEmExecucao());
 							 
 							 processador.executaProcesso(null);							// Procurar na lista de espera se tem algo, se nao tiver procurar na lista de processo se algum processo chegou
@@ -240,6 +253,10 @@ public class Main {
 							 if(lstProcEspera.size() > 0) {
 								 
 								 indexMaiorPriori = agendador.maiorPrioridade(lstProcEspera);
+								 
+								 if(lstProcEspera.get(indexMaiorPriori).getTempoResposta() == -1)
+										
+										lstProcEspera.get(indexMaiorPriori).setTempoResposta(tempoAtual);
 								 
 								 processador.executaProcesso(lstProcEspera.get(indexMaiorPriori));
 								 
@@ -252,6 +269,8 @@ public class Main {
 									 if(lstProcesso[0].getTempoChegada() <= tempoAtual) {
 										 
 										 lstProcesso[0].setStatus("Executando");
+										 
+										 lstProcesso[0].setTempoResposta(tempoAtual);
 										 
 										 processador.executaProcesso(lstProcesso[0]);	
 										 
@@ -284,6 +303,8 @@ public class Main {
 											 processador.procEmExecucao().setStatus("Em Espera"); 
 											 
 											 lstProcesso[0].setStatus("Executando");
+											 
+											 lstProcesso[0].setTempoResposta(tempoAtual);
 											 
 											 lstProcEspera.add(processador.procEmExecucao());
 											 
@@ -323,6 +344,8 @@ public class Main {
 												 
 												 lstProcesso[count].setStatus("Executando");
 												 
+												 lstProcesso[count].setTempoResposta(tempoAtual);
+												 
 												 lstProcEspera.add(processador.procEmExecucao());
 												 
 												 processador.executaProcesso(lstProcesso[count]);
@@ -348,11 +371,9 @@ public class Main {
 									 }
 									 
 								 }
-								
-							}
+							 }
 							 
 						 }
-						 
 						 
 					 }else {
 						 
@@ -375,8 +396,11 @@ public class Main {
 							 
 							 lstProcConcluido.add(processador.procEmExecucao());
 							 
-							 
 							 if(lstProcEspera.size() == 1) {
+								 
+								 if(lstProcEspera.get(0).getTempoResposta() == -1)
+										
+										lstProcEspera.get(0).setTempoResposta(tempoAtual);
 							 
 								 processador.executaProcesso(lstProcEspera.get(0));
 								 		 
@@ -386,6 +410,10 @@ public class Main {
 							 else if(lstProcEspera.size() > 1) {
 								 
 								 indexMaiorPriori = agendador.maiorPrioridade(lstProcEspera);
+								 
+								 if(lstProcEspera.get(indexMaiorPriori).getTempoResposta() == -1)
+										
+										lstProcEspera.get(indexMaiorPriori).setTempoResposta(tempoAtual);
 								 
 								 processador.executaProcesso(lstProcEspera.get(indexMaiorPriori));
 								 
@@ -407,6 +435,10 @@ public class Main {
 									 
 									 lstProcEspera.add(processador.procEmExecucao());
 									 
+									 if(lstProcEspera.get(0).getTempoResposta() == -1)
+											
+											lstProcEspera.get(0).setTempoResposta(tempoAtual);
+									 
 									 processador.executaProcesso(lstProcEspera.get(0));
 									 
 									 lstProcEspera.remove(lstProcEspera.get(0));
@@ -424,6 +456,10 @@ public class Main {
 										 lstProcEspera.get(count).setStatus("Executando");
 										 
 										 lstProcEspera.add(processador.procEmExecucao());
+										 
+										 if(lstProcEspera.get(count).getTempoResposta() == -1)
+												
+												lstProcEspera.get(count).setTempoResposta(tempoAtual);
 										 
 										 processador.executaProcesso(lstProcEspera.get(count));
 										 
@@ -490,6 +526,8 @@ public class Main {
 						
 							System.out.println(agendador.getTempoEsperaMedio(lstProcConcluido));
 							
+							System.out.println(agendador.getTempoRespostaMedio(lstProcConcluido));
+	
 						}
 					}
 				}				
