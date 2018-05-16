@@ -1,7 +1,9 @@
 package classes_pkg;
 
 public class Processador {
+	
 	private Processo proc;
+	
 	private float tempoNoProc;
 	
 	public Processador() {
@@ -13,14 +15,14 @@ public class Processador {
 	
 	public void executaProcesso(Processo p) {
 		
-		proc = p;
+		proc = p;				 // coloca o processo a ser executado no processador
 		
 		tempoNoProc = 1;
 	}
 	
 	public void zeraFatia() {
 		
-		tempoNoProc = 0;
+		tempoNoProc = 0;		// Zera a fatia de tempo do processador q
 	}
 	
 	public Processo procEmExecucao() {

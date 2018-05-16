@@ -25,7 +25,7 @@ public class Escalonador {
 			Processo[] lstAux = new Processo[lst.length-1];
 			
 			for(int count = 0; count<lst.length;count++) {
-				
+																 // Remove o processo da lista de processos e retorna a lista de processos que "ainda não chegaram"
 				if(lst[count].getStatus() != "Executando") {
 					
 					lstAux[contadorProcesso] = lst[count];
@@ -57,7 +57,7 @@ public class Escalonador {
 			for(int count = 0; count<lst.length;count++) {
 				
 				if(lst[count].getStatus() != "Em Espera") {
-					
+																		// Remove o processo da lista de processo que esteja "Em Espera". Para nao duplicar processos.
 					lstAux[contadorProcesso] = lst[count];
 					
 					contadorProcesso++;
@@ -89,7 +89,7 @@ public class Escalonador {
 		}else{
 			
 			for(i = 0; i<lst.size(); i++){
-				
+																									//retorna o index do processo que contem a maior prioridade da lista de espera
 				if(lst.get(indexPriori).getPrioridade() > lst.get(i).getPrioridade()) {
 					
 					indexPriori = i;

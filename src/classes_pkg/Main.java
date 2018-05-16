@@ -37,21 +37,22 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		String coord = "C:\\Users\\Pai e Mae\\Desktop\\arc.txt";
+		String coord = "C:\\Users\\Pai e Mae\\Desktop\\arc.txt";  // Localização onde se encontra o arquivo que contem os processos
         try {
         	int i = 0, count=0;
 
         	float tChegada,tExec,tempoAtual =0;
         	
-			int priori,countProcesso=0, indicNumProc =1;
+			int priori,countProcesso=0, indicNumProc =1; // atributos que serão passados para o processo
 			
-			boolean processosFinalizados = false;
+			boolean processosFinalizados = false;	// flag que controla quando todos os processos foram executados
 			
-			boolean controleContexto = false;
+			boolean controleContexto = false;  // Controla quando irá existir uma troca de contexto entre processos
 			
 			int indexMaiorPriori;
 			
-			ArrayList<Processo> lstProcEspera = new ArrayList<Processo>();
+			ArrayList<Processo> lstProcEspera = new ArrayList<Processo>();  // Lista de processos que já chegaram no processador e 
+																			//      estão "esperando" sua vez para serem executados
 			
 			String grafico="";
 			
@@ -65,7 +66,7 @@ public class Main {
 	        
 	        String linha = leitor.readLine();
 	        
-	        Processo lstProcesso[];
+	        Processo lstProcesso[];		 // Lista circular de processos 
 	        
 	        String num = "";
 	        
@@ -75,7 +76,7 @@ public class Main {
 	        	
 	        	lstProcesso = new Processo[Integer.parseInt(num)];
 	        	
-	        }else
+	        }else																			// Caso a primeira linha possua mais de um caracter, concateno e defino o tamanho da lista de processo
 	        	lstProcesso = new Processo[Character.getNumericValue(linha.charAt(0))];
 	        
 
@@ -144,23 +145,28 @@ public class Main {
 					
 			}
 			
-			while(processosFinalizados != true) { // Enquanto existem processos na lista de processos
-				/*
-				 *  1 - compara o tempo atual com o tempo da lista de processos. Caso tenha chegado um processo, joga no processador -- ok
-				 *    
-				 *    
-				 *    - caso ja tenha um processo rodando compara a fatia de tempo, ve se o processo ta dentro dos quantum estimado, caso esteja:
-				 *    	- o processo finalizou?
-				 *    		- se sim, olhar na lista de espera e pegar o processo com maior prioridade. Jogar ele no processador. Se nao tem lista de espera,  verifica se naquele instante de
-				 *    			tempo chegou algum processo. 
-				 *    			- se sim, coloca o processo no processador
-				 *    			- se nao, espera o prox processo chegar           -- Essa verificação é feita no passo 1
-				 *    */
+			// Enquanto existem processos na lista de processos
+			/*
+			 *  1 - compara o tempo atual com o tempo da lista de processos. Caso tenha chegado um processo, joga no processador -- ok
+			 *    
+			 *    
+			 *    - caso ja tenha um processo rodando compara a fatia de tempo, ve se o processo ta dentro dos quantum estimado, caso esteja:
+			 *    	- o processo finalizou?
+			 *    		- se sim, olhar na lista de espera e pegar o processo com maior prioridade. Jogar ele no processador. Se nao tem lista de espera,  verifica se naquele instante de
+			 *    			tempo chegou algum processo. 
+			 *    			- se sim, coloca o processo no processador
+			 *    			- se nao, espera o prox processo chegar           -- Essa verificação é feita no passo 1
+			 *    */
+			
+			while(processosFinalizados != true) { 
 				
  				System.out.println("TempoAtual: " + tempoAtual + " - ProcessoNoProc: " +(processador.procEmExecucao() == null ? "null" :processador.procEmExecucao().getNumProcesso() ) +
 					" - TempoNoProcessador: "+ processador.getTempoNoProc() +" - "+ (processador.procEmExecucao() == null ? "null" : "Tempo Restante: " + processador.procEmExecucao().getTempoExec() )+
 						
-					(lstProcesso == null ? " Fim dos Processos na Lista " : " Proximo Processo a ser exec: "+lstProcesso[0].getNumProcesso()) + " - Lista de espera: "+lstProcEspera.size() + " - Tempo Exec processo 1: " + ( lstProcEspera.isEmpty()  ? "0" : lstProcEspera.get(0).getTempoExec() ));
+					(lstProcesso == null ? " Fim dos Processos na Lista " : 
+						" Proximo Processo a ser exec: "+lstProcesso[0].getNumProcesso()) + 
+						" - Lista de espera: "+lstProcEspera.size() + " - Tempo Exec processo 1: "
+						+ ( lstProcEspera.isEmpty()  ? "0" : lstProcEspera.get(0).getTempoExec() ));
 					
 
 				if(processador.procEmExecucao() == null) {
@@ -377,8 +383,6 @@ public class Main {
 						 
 					 }else {
 						 
-						 controleContexto = true;
-						 
 						 /* se chegou ao limite do timeslice 
 						  * 
 						  * - caso o quantum tenha chegado no limite:
@@ -391,6 +395,10 @@ public class Main {
 						 *          	- se sim, tirar o processo da cpu e esperar o proximo
 						 *          	- se nao, continuar executando o mesmo processo 
 						  * */
+						 
+						 controleContexto = true;
+						 
+						
 						 
 						 if(processador.procEmExecucao().getStatus() == "Finalizado") {
 							 
